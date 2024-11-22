@@ -90,7 +90,7 @@ main > section:nth-child(2) {
 }
 
 /* \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ */
-.task-holder input[type="text"] {
+.task-holder > li input[type="text"] {
   display: none;
 }
 /* /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ */
@@ -113,6 +113,16 @@ main > section:nth-child(2) {
 .task-holder > li .action-buttons button {
   font-size: 14px;
   padding: 0.125rem 0.5rem;
+}
+
+/* Edit mode */
+.task-holder > li.edit-mode input[type="text"] {
+  display: block;
+  width: 90%;
+}
+
+.task-holder > li.edit-mode .task-details label {
+  display: none;
 }
 
 @media (max-width: 425px) {
