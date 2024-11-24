@@ -7,7 +7,8 @@ if (!todoObj.tasks.length && !todoObj.completed.length) {
 /* /\ /\ /\ /\ /\ */
 
 function getTodos() {
-  return JSON.parse(localStorage.getItem("todos"));
+  const todos = JSON.parse(localStorage.getItem("todos"));
+  return todos ? todos : {tasks:[], completed: []};
 }
 
 function storeTodos(todoObj) {
@@ -141,8 +142,8 @@ function updateUI() {
 
 updateUI();
 
-const taskAddBtn = document.querySelector(".task-add-btn");
-taskAddBtn.addEventListener("click", (e) => {
+const taskAddForm = document.querySelector("main > section:first-child form");
+taskAddForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const taskVal = document.getElementById("add-task").value;
