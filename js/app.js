@@ -30,30 +30,6 @@ function createTaskElement(taskNumber, taskLabel, isCompleted = false) {
   return li;
 }
 
-function finishTask(e) {
-  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && e.target.checked) {
-    const label = e.target.nextElementSibling.textContent;
-    const todoItemIdx = todoObj.tasks.findIndex((task) => task.label === label);
-    const [todoItem] = todoObj.tasks.splice(todoItemIdx, 1);
-    todoItem.isCompleted = true;
-    todoObj.completed.push(todoItem);
-    storeTodos(todoObj);
-    updateUI();
-  }
-}
-
-function reassignTask(e) {
-  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && !e.target.checked) {
-    const label = e.target.nextElementSibling.textContent;
-    const todoItemIdx = todoObj.completed.findIndex((task) => task.label === label);
-    const [todoItem] = todoObj.completed.splice(todoItemIdx, 1);
-    todoItem.isCompleted = false;
-    todoObj.tasks.push(todoItem);
-    storeTodos(todoObj);
-    updateUI();
-  }
-}
-
 function editTask(e) {
   if(e.target.tagName === "BUTTON" && e.target.textContent === "Edit") {
     const editBtn = e.target;
@@ -84,6 +60,49 @@ function editTask(e) {
   }
 }
 
+function deleteTask(e) {
+  if(e.target.tagName === "BUTTON" && e.target.textContent === "Delete") {
+    const category = e.target.parentElement.parentElement.parentElement.previousElementSibling.textContent;
+    const labelText = e.target.parentElement.previousElementSibling.querySelector("label").textContent;
+    let todoIdx;
+
+    if(category === "Tasks") {
+      todoIdx = todoObj.tasks.findIndex((task) => task.label === labelText);
+      todoObj.tasks.splice(todoIdx, 1);
+    } else if(category === "Completed") {
+      todoIdx = todoObj.completed.findIndex((task) => task.label === labelText);
+      todoObj.completed.splice(todoIdx, 1);
+    }
+    
+    storeTodos(todoObj);
+    updateUI();
+  }
+}
+
+function finishTask(e) {
+  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && e.target.checked) {
+    const label = e.target.nextElementSibling.textContent;
+    const todoItemIdx = todoObj.tasks.findIndex((task) => task.label === label);
+    const [todoItem] = todoObj.tasks.splice(todoItemIdx, 1);
+    todoItem.isCompleted = true;
+    todoObj.completed.push(todoItem);
+    storeTodos(todoObj);
+    updateUI();
+  }
+}
+
+function reassignTask(e) {
+  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && !e.target.checked) {
+    const label = e.target.nextElementSibling.textContent;
+    const todoItemIdx = todoObj.completed.findIndex((task) => task.label === label);
+    const [todoItem] = todoObj.completed.splice(todoItemIdx, 1);
+    todoItem.isCompleted = false;
+    todoObj.tasks.push(todoItem);
+    storeTodos(todoObj);
+    updateUI();
+  }
+}
+
 function updateUI() {
   const taskList = document.querySelector(".task-list");
   const completedList = document.querySelector(".completed-list");
@@ -104,6 +123,7 @@ function updateUI() {
       const newTaskElement = createTaskElement(taskNum, task.label);
       newTaskElement.addEventListener("click", finishTask);
       newTaskElement.addEventListener("click", editTask);
+      newTaskElement.addEventListener("click", deleteTask);
       taskList.append(newTaskElement);
     });
   }
@@ -113,6 +133,7 @@ function updateUI() {
       const taskNum = idx + 1;
       const completedTaskElement = createTaskElement(taskNum, task.label, true);
       completedTaskElement.addEventListener("click", reassignTask);
+      completedTaskElement.addEventListener("click", deleteTask);
       completedList.append(completedTaskElement);
     });
   }

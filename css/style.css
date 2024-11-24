@@ -1,5 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
+:root {
+  --add-btn-clr: hsl(119, 99%, 38%);
+  --add-btn-bdr-clr: hsl(119, 99%, 30%);
+  --add-btn-focus-clr: rgba(4, 193, 1, 0.5);
+  --add-btn-hover-clr: hsl(119, 99%, 36%);
+
+  --edit-btn-clr: hsl(198, 99%, 38%);
+  --edit-btn-bdr-clr: hsl(198, 99%, 30%);
+  --edit-btn-focus-clr: rgba(1, 135, 193, 0.5);
+  --edit-btn-hover-clr: hsl(198, 99%, 36%);
+
+  --del-btn-clr: hsl(13, 99%, 38%);
+  --del-btn-bdr-clr: hsl(13, 99%, 30%);
+  --del-btn-focus-clr: rgba(193, 43, 1, 0.5);
+  --del-btn-hover-clr: hsl(13, 99%, 36%);
+
+  --section-width: 30rem;
+  --task-input-width: 85%;
+  --form-el-bdr-rad: 0.125rem;
+  --checkbox-size: 1.125rem;
+}
+
 *,
 *::before,
 *::after {
@@ -16,10 +38,22 @@ input,
 button {
   font-family: inherit;
   font-size: inherit;
+  outline: 0;
+  border: 1px solid;
+  border-radius: var(--form-el-bdr-rad);
 }
 
 input {
   padding-inline: 0.25rem;
+}
+
+input:focus-visible {
+  box-shadow: 0 0 0 3px var(--edit-btn-focus-clr);
+}
+
+input[type="checkbox"] {
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
 }
 
 button:hover {
@@ -54,7 +88,7 @@ main {
 }
 
 main > section {
-  width: 20rem;
+  width: var(--section-width);
 }
 
 main > section:first-child form {
@@ -63,11 +97,23 @@ main > section:first-child form {
 }
 
 main > section:first-child form input[type="text"] {
-  width: 75%;
+  width: var(--task-input-width);
+  height: 2rem;
 }
 
+/* Add task button */
 main > section:first-child form button[type="submit"] {
   padding: 0.125rem 1rem;
+  border-color: var(--add-btn-bdr-clr);
+  background-color: var(--add-btn-clr);
+}
+
+main > section:first-child form button[type="submit"]:hover {
+  background-color: var(--add-btn-hover-clr);
+}
+
+main > section:first-child form button[type="submit"]:focus-visible {
+  box-shadow: 0 0 0 3px var(--add-btn-focus-clr);
 }
 
 main > section:nth-child(2) {
@@ -115,6 +161,36 @@ main > section:nth-child(2) {
   padding: 0.125rem 0.5rem;
 }
 
+/* Edit task button */
+.task-holder > li .action-buttons > button:first-child {
+  color: #fff;
+  border-color: var(--edit-btn-bdr-clr);
+  background: var(--edit-btn-clr);
+}
+
+.task-holder > li .action-buttons > button:first-child:hover {
+  background-color: var(--edit-btn-hover-clr);
+}
+
+.task-holder > li .action-buttons > button:first-child:focus-visible {
+  box-shadow: 0 0 0 3px var(--edit-btn-focus-clr);
+}
+
+/* Delete task button */
+.task-holder > li .action-buttons > button:last-child {
+  color: #fff;
+  border-color: var(--del-btn-bdr-clr);
+  background: var(--del-btn-clr);
+}
+
+.task-holder > li .action-buttons > button:last-child:hover {
+  background-color: var(--del-btn-hover-clr);
+}
+
+.task-holder > li .action-buttons > button:last-child:focus-visible {
+  box-shadow: 0 0 0 3px var(--del-btn-focus-clr);
+}
+
 /* Edit mode */
 .task-holder > li.edit-mode input[type="text"] {
   display: block;
@@ -125,12 +201,19 @@ main > section:nth-child(2) {
   display: none;
 }
 
+@media (max-width: 768px) {
+  :root {
+    --section-width: 80vw;
+    --task-input-width: 68vw;
+  }
+}
+
 @media (max-width: 425px) {
-  main > section:first-child form input[type="text"] {
-    width: 68vw;
+  :root {
+    --section-width: 90vw;
   }
 
-  main > section {
-    width: 90vw;
+  main > section:first-child form input[type="text"] {
+    width: 68vw;
   }
 }
