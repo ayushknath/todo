@@ -1,11 +1,3 @@
-const todoObj = getTodos();
-
-/* \/ \/ \/ \/ \/ */
-if (!todoObj.tasks.length && !todoObj.completed.length) {
-  console.log("No tasks");
-}
-/* /\ /\ /\ /\ /\ */
-
 function getTodos() {
   const todos = JSON.parse(localStorage.getItem("todos"));
   return todos ? todos : {tasks:[], completed: []};
@@ -31,72 +23,70 @@ function createTaskElement(taskNumber, taskLabel, isCompleted = false) {
   return li;
 }
 
-function editTask(e) {
-  if(e.target.tagName === "BUTTON" && e.target.textContent === "Edit") {
-    const editBtn = e.target;
-    const li = editBtn.parentElement.parentElement;
-    const label = li.querySelector(".task-details > label");
-    let labelText = label.textContent;
-    const input = li.querySelector(".task-details > input[type='text']");
-
-    const taskIdx = todoObj.tasks.findIndex((task) => task.label === labelText);
-    const taskItem = todoObj.tasks[taskIdx];
-    
-    li.classList.add("edit-mode");
-    editBtn.disabled = true;
-    input.value = labelText;
-
-    input.addEventListener("keypress", (e) => {
-      if(e.key === "Enter") {
-        labelText = input.value;
-        li.classList.remove("edit-mode");
-        editBtn.disabled = false;
-
-        taskItem.label = labelText;
-        todoObj.tasks.splice(taskIdx, 1, taskItem);
-        storeTodos(todoObj);
-        updateUI();
-      }
-    });
-  }
-}
-
-function deleteTask(e) {
-  if(e.target.tagName === "BUTTON" && e.target.textContent === "Delete") {
-    const category = e.target.parentElement.parentElement.parentElement.previousElementSibling.textContent;
-    const labelText = e.target.parentElement.previousElementSibling.querySelector("label").textContent;
-    let todoIdx;
-
-    if(category === "Tasks") {
-      todoIdx = todoObj.tasks.findIndex((task) => task.label === labelText);
-      todoObj.tasks.splice(todoIdx, 1);
-    } else if(category === "Completed") {
-      todoIdx = todoObj.completed.findIndex((task) => task.label === labelText);
-      todoObj.completed.splice(todoIdx, 1);
-    }
-    
-    storeTodos(todoObj);
-    updateUI();
-  }
-}
-
-function finishTask(e) {
-  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && e.target.checked) {
-    const label = e.target.nextElementSibling.textContent;
+function finishTask(targetElement) {
+  if (targetElement.checked) {
+    const label = targetElement.nextElementSibling.textContent;
     const todoItemIdx = todoObj.tasks.findIndex((task) => task.label === label);
     const [todoItem] = todoObj.tasks.splice(todoItemIdx, 1);
+
     todoItem.isCompleted = true;
     todoObj.completed.push(todoItem);
+
     storeTodos(todoObj);
     updateUI();
   }
 }
 
-function reassignTask(e) {
-  if (e.target.tagName === "INPUT" && e.target.getAttribute("type") === "checkbox" && !e.target.checked) {
-    const label = e.target.nextElementSibling.textContent;
+function editTask(targetElement) {
+  const li = targetElement.parentElement.parentElement;
+  const label = li.querySelector(".task-details > label");
+  let labelText = label.textContent;
+  const input = li.querySelector(".task-details > input[type='text']");
+
+  const taskIdx = todoObj.tasks.findIndex((task) => task.label === labelText);
+  const taskItem = todoObj.tasks[taskIdx];
+  
+  li.classList.add("edit-mode");
+  targetElement.disabled = true;
+  input.value = labelText;
+
+  input.addEventListener("keypress", (e) => {
+    if(e.key === "Enter") {
+      labelText = input.value;
+      li.classList.remove("edit-mode");
+      targetElement.disabled = false;
+
+      taskItem.label = labelText;
+      todoObj.tasks.splice(taskIdx, 1, taskItem);
+      storeTodos(todoObj);
+      updateUI();
+    }
+  });
+}
+
+function deleteTask(targetElement) {
+  const category = targetElement.parentElement.parentElement.parentElement.previousElementSibling.textContent;
+  const labelText = targetElement.parentElement.previousElementSibling.querySelector("label").textContent;
+  let todoIdx;
+
+  if(category === "Tasks") {
+    todoIdx = todoObj.tasks.findIndex((task) => task.label === labelText);
+    todoObj.tasks.splice(todoIdx, 1);
+  } else if(category === "Completed") {
+    todoIdx = todoObj.completed.findIndex((task) => task.label === labelText);
+    todoObj.completed.splice(todoIdx, 1);
+  }
+  
+  storeTodos(todoObj);
+  updateUI();
+}
+
+function reassignTask(targetElement) {
+  if (!targetElement.checked) {
+    const label = targetElement.nextElementSibling.textContent;
     const todoItemIdx = todoObj.completed.findIndex((task) => task.label === label);
     const [todoItem] = todoObj.completed.splice(todoItemIdx, 1);
+
     todoItem.isCompleted = false;
     todoObj.tasks.push(todoItem);
     storeTodos(todoObj);
@@ -122,9 +112,21 @@ function updateUI() {
     todoObj.tasks.forEach((task, idx) => {
       const taskNum = idx + 1;
       const newTaskElement = createTaskElement(taskNum, task.label);
-      newTaskElement.addEventListener("click", finishTask);
-      newTaskElement.addEventListener("click", editTask);
-      newTaskElement.addEventListener("click", deleteTask);
+
+      newTaskElement.addEventListener("click", (e) => {
+        const targetElement = e.target;
+
+        if(targetElement.tagName === "INPUT" && targetElement.getAttribute("type") === "checkbox") {
+          finishTask(targetElement);
+        }
+        else if(targetElement.tagName === "BUTTON" && targetElement.textContent === "Edit") {
+          editTask(targetElement);
+        }
+        else if(targetElement.tagName === "BUTTON" && targetElement.textContent === "Delete") {
+          deleteTask(targetElement);
+        }
+      });
+      
       taskList.append(newTaskElement);
     });
   }
@@ -133,12 +135,30 @@ function updateUI() {
     todoObj.completed.forEach((task, idx) => {
       const taskNum = idx + 1;
       const completedTaskElement = createTaskElement(taskNum, task.label, true);
-      completedTaskElement.addEventListener("click", reassignTask);
-      completedTaskElement.addEventListener("click", deleteTask);
+
+      completedTaskElement.addEventListener("click", (e) => {
+        const targetElement = e.target;
+
+        if(targetElement.tagName === "INPUT" && targetElement.getAttribute("type") === "checkbox") {
+          reassignTask(targetElement);
+        }
+        else if(targetElement.tagName === "BUTTON" && targetElement.textContent === "Delete") {
+          deleteTask(targetElement);
+        }
+      });
+      
       completedList.append(completedTaskElement);
     });
   }
 }
+
+const todoObj = getTodos();
+
+/* \/ \/ \/ \/ \/ */
+if (!todoObj.tasks.length && !todoObj.completed.length) {
+  console.log("No tasks");
+}
+/* /\ /\ /\ /\ /\ */
 
 updateUI();
 
