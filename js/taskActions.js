@@ -28,7 +28,7 @@ function editTask(targetElement, todoObj) {
   targetElement.disabled = true;
   input.value = labelText;
 
-  input.addEventListener("keypress", (e) => {
+  input.addEventListener("keydown", (e) => {
     if(e.key === "Enter") {
       labelText = input.value.trim();
       li.classList.remove("edit-mode");
@@ -40,6 +40,10 @@ function editTask(targetElement, todoObj) {
         storeTodos(todoObj);
         updateUI(todoObj);
       }
+    } else if(e.key === "Escape") {
+      li.classList.remove("edit-mode");
+      targetElement.disabled = false;
+      return;
     }
   });
 }
