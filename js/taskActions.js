@@ -30,7 +30,7 @@ function editTask(targetElement, todoObj) {
 
   input.addEventListener("keypress", (e) => {
     if(e.key === "Enter") {
-      labelText = input.value;
+      labelText = input.value.trim();
       li.classList.remove("edit-mode");
       targetElement.disabled = false;
 

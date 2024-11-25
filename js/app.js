@@ -15,7 +15,7 @@ const taskAddForm = document.querySelector("main > section:first-child form");
 taskAddForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const taskVal = document.getElementById("add-task").value;
+  const taskVal = document.getElementById("add-task").value.trim();
   if (taskVal) {
     todoObj.tasks.push({
       label: taskVal,
