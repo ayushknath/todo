@@ -34,10 +34,12 @@ function editTask(targetElement, todoObj) {
       li.classList.remove("edit-mode");
       targetElement.disabled = false;
 
-      taskItem.label = labelText;
-      todoObj.tasks.splice(taskIdx, 1, taskItem);
-      storeTodos(todoObj);
-      updateUI(todoObj);
+      if(labelText.length) {
+        taskItem.label = labelText;
+        todoObj.tasks.splice(taskIdx, 1, taskItem);
+        storeTodos(todoObj);
+        updateUI(todoObj);
+      }
     }
   });
 }
