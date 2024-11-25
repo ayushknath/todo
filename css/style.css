@@ -131,6 +131,7 @@ main > section:nth-child(2) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 0.5rem;
   padding: 1rem;
   border: 1px solid rgb(200, 200, 200);
   border-radius: 0.25rem;
@@ -145,6 +146,7 @@ main > section:nth-child(2) {
 .task-holder > li .task-details {
   display: flex;
   align-items: center;
+  width: 70%;
 }
 
 .task-holder > li .task-details label {
@@ -154,7 +156,9 @@ main > section:nth-child(2) {
 
 .task-holder > li .action-buttons {
   display: flex;
+  justify-content: flex-end;
   gap: 0.5rem;
+  width: 30%;
 }
 
 .task-holder > li .action-buttons button {
@@ -193,6 +197,10 @@ main > section:nth-child(2) {
 }
 
 /* Edit mode */
+.task-holder > li.edit-mode .task-details {
+  column-gap: 0.5rem;
+}
+
 .task-holder > li.edit-mode input[type="text"] {
   display: block;
   width: 90%;
