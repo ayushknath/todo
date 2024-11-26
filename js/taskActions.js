@@ -34,7 +34,7 @@ function editTask(targetElement, todoObj) {
       li.classList.remove("edit-mode");
       targetElement.disabled = false;
 
-      if(labelText.length) {
+      if(labelText) {
         taskItem.label = labelText;
         todoObj.tasks.splice(taskIdx, 1, taskItem);
         storeTodos(todoObj);
