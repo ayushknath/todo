@@ -10,6 +10,19 @@
   --edit-btn-bdr-clr: hsl(198, 99%, 30%);
   --edit-btn-focus-clr: rgba(1, 135, 193, 0.5);
   --edit-btn-hover-clr: hsl(198, 99%, 36%);
+  --edit-btn-disabled-opacity: 0.4;
+  --edit-btn-disabled-clr: hsla(
+    198,
+    30%,
+    60%,
+    var(--edit-btn-disabled-opacity)
+  );
+  --edit-btn-disabled-bdr-clr: hsla(
+    198,
+    30%,
+    60%,
+    var(--edit-btn-disabled-opacity)
+  );
 
   --del-btn-clr: hsl(13, 99%, 38%);
   --del-btn-bdr-clr: hsl(13, 99%, 30%);
@@ -178,6 +191,12 @@ main > section:nth-child(2) {
 
 .task-holder > li .action-buttons > button:first-child:focus-visible {
   box-shadow: 0 0 0 3px var(--edit-btn-focus-clr);
+}
+
+.task-holder > li .action-buttons > button:first-child:disabled {
+  background-color: var(--edit-btn-disabled-clr);
+  cursor: not-allowed;
+  border-color: var(--edit-btn-disabled-bdr-clr);
 }
 
 /* Delete task button */
