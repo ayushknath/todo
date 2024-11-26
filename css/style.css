@@ -128,9 +128,9 @@ main > section:nth-child(2) {
 }
 
 .task-holder > li {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
   align-items: center;
-  justify-content: space-between;
   column-gap: 0.5rem;
   padding: 1rem;
   border: 1px solid rgb(200, 200, 200);
@@ -144,21 +144,20 @@ main > section:nth-child(2) {
 /* /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ /\ */
 
 .task-holder > li .task-details {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  width: 70%;
+  column-gap: 0.5rem;
 }
 
 .task-holder > li .task-details label {
-  padding-inline: 0.5rem;
   word-break: break-all;
 }
 
 .task-holder > li .action-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
-  width: 30%;
+  column-gap: 0.5rem;
 }
 
 .task-holder > li .action-buttons button {
