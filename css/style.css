@@ -1,6 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
 :root {
+  --signup-btn-hover-clr: hsl(0, 0%, 90%);
+  --signup-btn-focus-clr: hsl(0, 0%, 60%);
+
   --add-btn-clr: hsl(119, 99%, 38%);
   --add-btn-bdr-clr: hsl(119, 99%, 30%);
   --add-btn-focus-clr: rgba(4, 193, 1, 0.5);
@@ -78,6 +79,10 @@ ul {
   list-style-type: none;
 }
 
+img {
+  max-width: 100%;
+}
+
 .task-section-heading {
   border-bottom: 1px solid black;
   margin-bottom: 1rem;
@@ -88,10 +93,32 @@ ul {
 }
 
 header {
+  position: relative;
   width: 100vw;
   padding: 1rem;
   text-align: center;
   border-bottom: 1px solid black;
+}
+
+header .auth-buttons {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translate(5%, -50%);
+}
+
+header .auth-buttons button {
+  padding: 0.25rem 0.75rem;
+}
+
+header .auth-buttons .signin-button:hover,
+header .auth-buttons .signout-button:hover {
+  background-color: var(--signup-btn-hover-clr);
+}
+
+header .auth-buttons .signin-button:focus-visible,
+header .auth-buttons .signout-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--signup-btn-focus-clr);
 }
 
 main {
@@ -238,6 +265,21 @@ main > section:nth-child(2) {
 @media (max-width: 425px) {
   :root {
     --section-width: 90vw;
+  }
+
+  header {
+    position: static;
+    text-align: initial;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header .auth-buttons {
+    position: static;
+    top: initial;
+    right: initial;
+    transform: initial;
   }
 
   main > section:first-child form input[type="text"] {
