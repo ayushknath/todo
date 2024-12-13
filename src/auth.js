@@ -1,6 +1,6 @@
-import closeIcon from "../assets/img/close.png";
-import googleLogo from "../assets/img/google.png";
-import microsoftLogo from "../assets/img/microsoft.png";
+import closeIcon from "./assets/images/close.png";
+import googleLogo from "./assets/images/google.png";
+import microsoftLogo from "./assets/images/microsoft.png";
 import {
   auth,
   googleProvider,
