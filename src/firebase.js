@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBfILpF4j2JCExbDDRXy1LAlI8kqOlDTjU",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "todo-c3a27.firebaseapp.com",
   projectId: "todo-c3a27",
   storageBucket: "todo-c3a27.firebasestorage.app",
