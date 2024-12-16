@@ -1,4 +1,6 @@
 :root {
+  --font-family: "Poppins", sans-serif;
+
   --signup-btn-hover-clr: hsl(0, 0%, 90%);
   --signup-btn-focus-clr: hsl(0, 0%, 60%);
 
@@ -34,6 +36,25 @@
   --task-input-width: 85%;
   --form-el-bdr-rad: 0.125rem;
   --checkbox-size: 1.125rem;
+
+  --auth-ui-clr: hsl(0, 0%, 98%);
+  --auth-ui-bdr-clr: hsl(0, 0%, 32%);
+  --auth-ui-shadow-clr: rgba(0, 0, 0, 0.5);
+
+  --close-popup-hover-clr: hsl(0, 0%, 90%);
+  --close-popup-focus-clr: hsl(0, 0%, 80%);
+
+  --google-btn-clr: hsl(217, 89%, 88%);
+  --google-btn-bdr-clr: hsl(217, 89%, 62%);
+  --google-btn-hover-clr: hsl(217, 89%, 78%);
+  --google-btn-focus-clr: hsl(217, 89%, 62%);
+
+  --microsoft-btn-clr: hsl(0, 0%, 88%);
+  --microsoft-btn-bdr-clr: hsl(0, 0%, 62%);
+  --microsoft-btn-hover-clr: hsl(0, 0%, 78%);
+  --microsoft-btn-focus-clr: hsl(0, 0%, 62%);
+
+  --btn-disabled: grayscale(100%);
 }
 
 *,
@@ -45,7 +66,7 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family);
   overflow-x: hidden;
 }
 
@@ -75,6 +96,11 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  filter: var(--btn-disabled);
+  cursor: not-allowed;
+}
+
 ul {
   list-style-type: none;
 }
@@ -86,6 +112,18 @@ img {
 .task-section-heading {
   border-bottom: 1px solid black;
   margin-bottom: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 #root {
@@ -100,24 +138,22 @@ header {
   border-bottom: 1px solid black;
 }
 
-header .auth-buttons {
+header .auth-button {
   position: absolute;
   top: 50%;
   right: 5%;
   transform: translate(5%, -50%);
 }
 
-header .auth-buttons button {
+header .auth-button {
   padding: 0.25rem 0.75rem;
 }
 
-header .auth-buttons .signin-button:hover,
-header .auth-buttons .signout-button:hover {
+header .auth-button:hover {
   background-color: var(--signup-btn-hover-clr);
 }
 
-header .auth-buttons .signin-button:focus-visible,
-header .auth-buttons .signout-button:focus-visible {
+header .auth-button:focus-visible {
   box-shadow: 0 0 0 3px var(--signup-btn-focus-clr);
 }
 
@@ -255,10 +291,125 @@ main > section:nth-child(2) {
   display: none;
 }
 
+/* Auth UI */
+.auth-ui {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 500px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--auth-ui-bdr-clr);
+  background-color: var(--auth-ui-clr);
+  box-shadow: 0 0 10px 100vmax var(--auth-ui-shadow-clr);
+}
+
+.auth-ui .auth-ui-header {
+  position: static;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  border: 0;
+
+  display: flex;
+  justify-content: end;
+}
+
+.auth-ui .auth-ui-header .close-popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border: 0;
+  outline: 0;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.auth-ui .auth-ui-header .close-popup:hover {
+  background-color: var(--close-popup-hover-clr);
+}
+
+.auth-ui .auth-ui-header .close-popup:focus-visible {
+  box-shadow: 0 0 0 3px var(--close-popup-focus-clr);
+}
+
+.auth-ui .auth-ui-header .close-popup img {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.signin-ui {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+}
+
+.third-party-providers-list {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 1.25rem;
+}
+
+.third-party-providers-list li {
+  width: 100%;
+}
+
+.third-party-providers-list li button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding-block: 0.75rem;
+}
+
+.third-party-providers-list li button img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Google */
+.third-party-providers-list .google-button {
+  border: 1px solid var(--google-btn-bdr-clr);
+  background-color: var(--google-btn-clr);
+}
+
+.third-party-providers-list .google-button:hover {
+  background-color: var(--google-btn-hover-clr);
+}
+
+.third-party-providers-list .google-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--google-btn-focus-clr);
+}
+
+/* Microsoft */
+.third-party-providers-list .microsoft-button {
+  border: 1px solid var(--microsoft-btn-bdr-clr);
+  background-color: var(--microsoft-btn-clr);
+}
+
+.third-party-providers-list .microsoft-button:hover {
+  background-color: var(--microsoft-btn-hover-clr);
+}
+
+.third-party-providers-list .microsoft-button:focus-visible {
+  box-shadow: 0 0 0 3px var(--microsoft-btn-focus-clr);
+}
+
 @media (max-width: 768px) {
   :root {
     --section-width: 80vw;
     --task-input-width: 68vw;
+  }
+
+  .auth-ui {
+    width: 80vw;
+    height: 70vh;
   }
 }
 
@@ -275,7 +426,7 @@ main > section:nth-child(2) {
     justify-content: space-between;
   }
 
-  header .auth-buttons {
+  header .auth-button {
     position: static;
     top: initial;
     right: initial;
@@ -284,5 +435,10 @@ main > section:nth-child(2) {
 
   main > section:first-child form input[type="text"] {
     width: 68vw;
+  }
+
+  .auth-ui {
+    width: 90vw;
+    height: 60vh;
   }
 }

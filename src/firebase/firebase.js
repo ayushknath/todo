@@ -1,15 +1,17 @@
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
+  collection,
   doc,
-  setDoc
+  getDocs,
+  setDoc,
 } from "firebase/firestore";
 import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  onAuthStateChanged,
   signOut,
-  onAuthStateChanged
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -18,7 +20,7 @@ const firebaseConfig = {
   projectId: "todo-c3a27",
   storageBucket: "todo-c3a27.firebasestorage.app",
   messagingSenderId: "133940341558",
-  appId: "1:133940341558:web:c790f01a7e0d90e593e197"
+  appId: "1:133940341558:web:c790f01a7e0d90e593e197",
 };
 
 initializeApp(firebaseConfig);
@@ -30,11 +32,13 @@ const googleProvider = new GoogleAuthProvider();
 
 export {
   auth,
-  db,
   googleProvider,
   signInWithPopup,
-  signOut,
   onAuthStateChanged,
+  signOut,
+  db,
+  collection,
   doc,
-  setDoc
+  getDocs,
+  setDoc,
 };
