@@ -1,0 +1,36 @@
+:root {
+  --loader-dot-dimension: 0.5rem;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loader-dot {
+  height: var(--loader-dot-dimension);
+  width: var(--loader-dot-dimension);
+  border-radius: 50%;
+  background-color: #aaa;
+  animation: pulse 1s infinite;
+}
+
+.loader-dot:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loader-dot:last-child {
+  animation-delay: 0.2s;
+}
+
+@keyframes pulse {
+  from,
+  to {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0);
+  }
+}

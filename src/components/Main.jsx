@@ -4,6 +4,7 @@ import CompletedTasks from "./CompletedTasks.jsx";
 
 function Main({
   todoObj,
+  loading,
   onSubmitNewTask,
   onChangeTaskCheck,
   onChangeTaskUncheck,
@@ -14,12 +15,14 @@ function Main({
     <main>
       <TaskInput onSubmitNewTask={onSubmitNewTask} />
       <Tasks
+        loading={loading}
         tasks={todoObj.tasks}
         onChangeTaskCheck={onChangeTaskCheck}
         finishEdit={finishEdit}
         deleteTask={deleteTask}
       />
       <CompletedTasks
+        loading={loading}
         completed={todoObj.completed}
         onChangeTaskUncheck={onChangeTaskUncheck}
         deleteTask={deleteTask}

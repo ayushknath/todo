@@ -22,6 +22,7 @@ function App() {
   const [isAuthUIShown, setIsAuthUIShown] = useState(false);
   const [isUserSignedIn, setIsUserSignedIn] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [todoObj, setTodoObj] = useState({ ...todoTemplate });
 
@@ -31,8 +32,10 @@ function App() {
         setUserData({ ...user });
         setIsUserSignedIn(true);
         try {
+          setLoading(true);
           const collectionRef = collection(db, user.uid);
           const snapshot = await getDocs(collectionRef);
+          setLoading(false);
           let data = snapshot.docs[0].data();
           Object.keys(data).length > 0 && setTodoObj(data);
         } catch (error) {
@@ -160,6 +163,7 @@ function App() {
       />
       <Main
         todoObj={todoObj}
+        loading={loading}
         onSubmitNewTask={handleNewTask}
         onChangeTaskCheck={handleTaskCheck}
         onChangeTaskUncheck={handleTaskUncheck}

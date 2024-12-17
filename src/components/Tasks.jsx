@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import Task from "./Task.jsx";
+import Loader from "./Loader.jsx";
 
-function Tasks({ tasks, onChangeTaskCheck, finishEdit, deleteTask }) {
+function Tasks({ loading, tasks, onChangeTaskCheck, finishEdit, deleteTask }) {
   const taskList = tasks.map((task, idx) => {
     const taskNum = idx + 1;
     return (
@@ -19,9 +20,12 @@ function Tasks({ tasks, onChangeTaskCheck, finishEdit, deleteTask }) {
   return (
     <section>
       <h2 className="task-section-heading">Tasks</h2>
-      <ul className="task-holder">
-        {taskList.length > 0 ? taskList : "No tasks"}
-      </ul>
+      {loading && <Loader />}
+      {!loading && taskList.length > 0 ? (
+        <ul className="task-holder">{taskList}</ul>
+      ) : (
+        <p>No tasks</p>
+      )}
     </section>
   );
 }
