@@ -20,8 +20,9 @@ function Tasks({ loading, tasks, onChangeTaskCheck, finishEdit, deleteTask }) {
   return (
     <section>
       <h2 className="task-section-heading">Tasks</h2>
-      {loading && <Loader />}
-      {!loading && taskList.length > 0 ? (
+      {loading ? (
+        <Loader />
+      ) : taskList.length > 0 ? (
         <ul className="task-holder">{taskList}</ul>
       ) : (
         <p>No tasks</p>

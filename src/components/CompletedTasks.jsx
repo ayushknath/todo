@@ -24,8 +24,9 @@ function CompletedTasks({
   return (
     <section>
       <h2 className="task-section-heading">Completed</h2>
-      {loading && <Loader />}
-      {!loading && taskList.length > 0 ? (
+      {loading ? (
+        <Loader />
+      ) : taskList.length > 0 ? (
         <ul className="task-holder">{taskList}</ul>
       ) : (
         <p>No completed tasks</p>
